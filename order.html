@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>FROM ORDER MAKANAN</title>
+    
+    <style>
+       body {
+  font-family: Arial, sans-serif;
+  margin: 20px;
+  
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+p {
+  text-align: center;
+  color: #000000;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 10px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+th {
+  background-color: #f5f5f5;
+}
+
+.harga,
+.subtotal,
+.total {
+  text-align: right;
+}
+
+.kuantitas {
+  width: 50px;
+  text-align: center;
+}
+
+.container {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+.total {
+  font-weight: bold;
+}
+
+input[type="submit"] {
+  display: block;
+  width: 100%;
+  padding: 15px 20px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+input[type="submit"]:hover {
+  background-color: #3e8e41;
+}
+    </style>
+</head>
+
+<body>
+    <h1>WARUNG MAKAN SEDERHANA</h1>
+    <p>Selamat datang silahkan pilih menu kesukaan anda</p>
+    <form id="orderForm">
+        <table>
+            <thead>
+                <tr>
+                    <th>Nama Makanan</th>
+                    <th>Harga</th>
+                    <th>Jumlah</th>
+                    <th>Subtotal</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Nasi Goreng</td>
+                    <td class="harga">Rp 15.000</td>
+                    <td><input type="number" name="nasi_goreng" class="kuantitas" value="0"></td>
+                    <td class="subtotal">Rp 15.000</td>
+                </tr>
+                <tr>
+                    <td>Mie ayam</td>
+                    <td class="harga">Rp 10.000</td>
+                    <td><input type="number" name="nasi_goreng" class="kuantitas" value="0"></td>
+                    <td class="subtotal">Rp 10.000</td>
+                </tr>
+                <tr>
+                    <td>Bakso</td>
+                    <td class="harga">Rp 10.000</td>
+                    <td><input type="number" name="nasi_goreng" class="kuantitas" value="0"></td>
+                    <td class="subtotal">Rp 10.000</td>
+                </tr>
+                <tr>
+                    <td>Mie goreng</td>
+                    <td class="harga">Rp 12.000</td>
+                    <td><input type="number" name="mie_ayam" class="kuantitas" value="0"></td>
+                    <td class="subtotal">Rp 12.000</td>
+                </tr>
+                <tr>
+                    <td>Es Teh Manis</td>
+                    <td class="harga">Rp 5.000</td>
+                    <td><input type="number" name="es_teh_manis" class="kuantitas" value="0"></td>
+                    <td class="subtotal">Rp 5.000</td>
+                </tr>
+                <tr>
+                    <td>Es Jeruk</td>
+                    <td class="harga">Rp 6.000</td>
+                    <td><input type="number" name="es_teh_manis" class="kuantitas" value="0"></td>
+                    <td class="subtotal">Rp 6.000</td>
+                </tr>
+            </tbody>
+           </table>
+           <br>
+           <div class="container">
+            <Table>          
+                    <td class="">Total</td>                  
+                    <td class="total"></td>
+           </Table>
+        </div>
+        <br>
+        <input type="submit" value="Bayar Sekarang" id="order-button">
+    </form>
+     <script>
+        
+const orderForm = document.getElementById("orderForm");
+const quantityInputs = orderForm.querySelectorAll(".kuantitas");
+const submitButton = orderForm.querySelector("input[type='submit'");
+const totalElement = orderForm.querySelector(".total.total");
+
+function updateSubtotal() {
+    quantityInputs.forEach(input => {
+        const quantity = parseInt(input.value);
+        const price = parseFloat(input.closest("tr").querySelector(".harga").textContent.slice(3));
+        const subtotalElement = input.closest("tr").querySelector(".subtotal");
+        subtotalElement.textContent = `Rp ${(quantity * price).toFixed(3)}`;
+    });
+}
+
+function updateTotal() {
+    let total = 0;
+    quantityInputs.forEach(input => {
+        const quantity = parseInt(input.value);
+        const price = parseFloat(input.closest("tr").querySelector(".harga").textContent.slice(3)); 
+        total += quantity * price;
+    });
+    totalElement.textContent = `Rp ${total.toFixed(3)}`;
+}
+
+function updateSubmitButton() {
+    submitButton.disabled = quantityInputs.every(input => parseInt(input.value) === 0);
+}
+
+quantityInputs.forEach(input => input.addEventListener("change", updateSubtotal));
+quantityInputs.forEach(input => input.addEventListener("change", updateTotal));
+quantityInputs.forEach(input => input.addEventListener("change", updateSubmitButton));
+
+document.getElementById('order-button').addEventListener('click', function() {
+    alert('Terima kasih! Pesanan Anda Sedang Diproses.');
+  });
+
+updateSubtotal();
+updateTotal();
+updateSubmitButton();
+     </script>
+
+</body>
+
+</html>
